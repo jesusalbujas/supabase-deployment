@@ -1,0 +1,13 @@
+volumes/db/data
+volumes/storage
+volumes/snippets
+volumes/functions/**
+!volumes/functions/main/
+volumes/functions/main/**
+!volumes/functions/main/index.ts
+.env
+../nginx/.env
+test.http
+docker-compose.override.yml
+.supabase-version
+backups

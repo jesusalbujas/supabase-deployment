@@ -1,0 +1,37 @@
+services:
+  nginx-proxy-manager:
+    image: ${NGINX_PROXY_MANAGER}
+    container_name: ${NGINX_NAME}
+    restart: ${GENERIC_RESTART}
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    volumes:
+      - ./npm_data/config.json:/app/config/production.json
+      - ./npm_data/data:/data
+      - ./npm_data/letsencrypt:/etc/letsencrypt
+      - ./npm_data/nginx_error:/custom_errors
+    networks:
+      - npm_network
+      - supabase_network
+
+  mariadb:
+    image: ${MARIADB_IMAGE}
+    container_name: ${MARIADB_NAME}
+    restart: ${GENERIC_RESTART}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./npm_data/data/mysql:/var/lib/mysql
+    networks:
+      - npm_network
+
+networks:
+  npm_network:
+    name: nginx_proxy_manager_network
+  supabase_network:
+    external: true
