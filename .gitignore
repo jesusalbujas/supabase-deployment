@@ -1,3 +1,1 @@
 /nginx/.env
-**/.env*
-!**/.env.example
